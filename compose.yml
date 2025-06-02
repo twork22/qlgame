@@ -7,6 +7,8 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: d0anclmm
+    ports:
+      - 3306:3306
     volumes:
       - ./docker/mysql/db:/var/lib/mysql/
       - ./docker/mysql/conf.d:/etc/mysql/conf.d
