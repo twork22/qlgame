@@ -1,0 +1,28 @@
+<div class="container">
+	<table class="user-table">
+		<thead>
+			<td></td>
+			<td>Username</td>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Status</td>
+			<td>Warning</td>
+			<td>Deactivate</td>
+		</thead>
+		<tbody>
+			<tr *ngFor="let item of userEntries" class="user">
+				<td>
+					<img [src]="item.avatar" class="avatar" onerror="this.src='/assets/profile.png'">
+				</td>
+				<td>{{ item.username }}</td>
+				<td>{{ item.name }}</td>
+				<td>{{ item.email }}</td>
+				<td class="user-status" [class]="statusEnum[item.status]">{{ statusEnum[item.status] }}</td>
+				<td>
+					<a href="#" title="Send Warning" class="send-warning"><img src="/assets/danger.png"></a>
+				</td>
+				<td>button</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
