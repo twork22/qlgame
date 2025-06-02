@@ -14,7 +14,7 @@ export class SidebarComponent {
     {
       label: 'Home',
       icon: '/assets/sidebar/ic_home.png',
-      route: '/home'
+      route: '/'
     },
     {
       label: 'My VocabSpace',
