@@ -1,0 +1,23 @@
+#sidebar {
+	width: 100%;
+	grid-area: sidebar;
+}
+
+#content {
+	width: 100%;
+	grid-area: content;
+	background: #0C1033;
+}
+
+#content > div {
+	width: 100%;
+	padding: 2rem 0;
+	min-height: 30vh
+}
+
+#wrapper {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-template-areas: 'sidebar content content content content content';
+	height: calc(100vh - (1rem + 48px));
+}

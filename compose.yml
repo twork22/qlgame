@@ -29,6 +29,17 @@ services:
     # command: sh -c "php artisan key:generate && php artisan optimize:clear && php-fpm"
     networks:
       - app-network
+
+  frontend:
+    working_dir: /app
+    image: node:22.16.0
+    restart: unless-stopped
+    volumes:
+      - ./frontend/:/app/
+    command: "npm run dev"
+    networks:
+      - app-network
+
   nginx:
     image: nginx:alpine
     restart: unless-stopped
