@@ -37,14 +37,16 @@ services:
     volumes:
       - ./frontend/:/app/
     command: "npm run dev"
+    ports:
+      - 4200:4200
     networks:
       - app-network
 
   nginx:
     image: nginx:alpine
     restart: unless-stopped
-    ports:
-      - 80:80
+    # ports:
+    #   - 80:80
     volumes:
       - ./backend-apis/:/var/www/app/
       - ./docker/nginx/:/etc/nginx/conf.d/
