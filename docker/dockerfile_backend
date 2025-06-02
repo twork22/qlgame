@@ -1,0 +1,100 @@
+FROM php:8.1-fpm-alpine
+
+ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_MEMORY_LIMIT=-1
+
+RUN apk update && apk add --no-cache --virtual build-dependencies build-base curl git openssl-dev autoconf postgresql-dev freetype-dev libzip-dev libpng-dev libjpeg-turbo-dev libmemcached-dev libwebp-dev icu-dev shadow supervisor
+
+RUN set -xe \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS \
+    && wget https://github.com/FriendsOfPHP/pickle/releases/latest/download/pickle.phar \
+    && chmod +x pickle.phar \
+    && mv pickle.phar /usr/local/bin/pickle \
+    && pickle install -n igbinary \
+    && docker-php-ext-enable igbinary \
+    && echo "--enable-redis-igbinary --enable-redis-lzf" > cfg-options.txt \
+    && pickle install --with-configure-options cfg-options.txt redis \
+    && docker-php-ext-enable redis \
+    && apk del .phpize-deps \
+    && rm -rf cfg-options.txt \
+    && php -m | grep igbinary \
+    && php -m | grep redis \
+    && php -i | grep igbinary \
+    && php -i | grep redis
+
+# Install extensions
+RUN  pecl install mongodb \
+    #    && pecl install redis \
+    php8.1-common \
+    php8.1-pdo \
+    php8.1-pdo_mysql \
+    php8.1-mysqli \
+    php8.1-pgsql \
+    php8.1-mcrypt \
+    php8.1-mbstring \
+    php8.1-xml \
+    php8.1-openssl \
+    php8.1-json \
+    php8.1-phar \
+    php8.1-zip \
+    php8.1-gd \
+    php8.1-imagick \
+    php8.1-dom \
+    php8.1-session \
+    php8.1-curl \
+    php8.1-zlib \
+    memcached
+
+RUN docker-php-ext-enable memcached \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql \
+    && docker-php-ext-install sockets \
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j "$(nproc)" gd \
+    && docker-php-ext-enable pdo \
+    && docker-php-ext-enable pdo_mysql \
+    && docker-php-ext-enable pdo_pgsql \
+    && docker-php-ext-enable mongodb \
+    #    && docker-php-ext-enable redis \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-enable intl \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install exif \
+    && set -ex \
+    && apk add --no-cache --virtual .phpize-deps $PHPIZE_DEPS imagemagick-dev libtool \
+    && export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && apk add --no-cache --virtual .imagick-runtime-deps imagemagick \
+    && apk del .phpize-deps \
+    && rm -rf /var/cache/apk/*
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN mkdir -p /var/www/app/
+
+WORKDIR /var/www/app/
+
+# Copy composer.lock and composer.json
+# COPY ./backend-apis/composer* /var/www/app/
+
+# Add user for laravel application
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+RUN chown -R www:www /var/www/app
+
+# Change current user to www
+USER www
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
+

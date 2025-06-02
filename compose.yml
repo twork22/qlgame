@@ -1,0 +1,45 @@
+services:
+  database:
+    image: mariadb:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: user
+      MYSQL_PASSWORD: test
+      MYSQL_ROOT_PASSWORD: d0anclmm
+    volumes:
+      - ./docker/mysql/db:/var/lib/mysql/
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile_backend
+    image: qlgame_backend
+    restart: unless-stopped
+    environment:
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_USERNAME: user
+      DB_PASSWORD: test
+    volumes:
+      - ./backend-apis/:/var/www/app/
+    # command: sh -c "php artisan key:generate && php artisan optimize:clear && php-fpm"
+    networks:
+      - app-network
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./backend-apis/:/var/www/app/
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
