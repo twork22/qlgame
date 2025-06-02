@@ -1,0 +1,149 @@
+/* Overview top 3 */
+.top-3 {
+	color:#FFF;
+	font-family: 'Inter', sans-serif;
+	display: flex;
+	flex-direction: row;
+	gap: 3rem;
+}
+
+.top-3 > * {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: end;
+}
+
+.top-3 .username {
+	font-size: 1.4rem;
+}
+
+.top-3 .level {
+	opacity: 0.6;
+}
+
+.crown {
+	position: relative;
+	left: 50%;
+	transform: translateY(30%) translateX(-50%);
+	max-width: 80%;
+}
+
+.avatar-group {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.avatar-group .rank {
+	display: flex;
+	justify-content: center;
+	transform: translateY(-50%);
+}
+
+.avatar-group .rank div {
+	background: var(--avatar-border-color);
+	color: #322244;
+	width: 40px;
+	font-size: 1.3rem;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 100%;
+	border: 4px solid #322244;
+}
+
+.avatar-group.tier-1 {
+	--avatar-border-color: #FFCA28;
+}
+.avatar-group.tier-2 {
+	--avatar-border-color: #F4F4F4;
+}
+.avatar-group.tier-3 {
+	--avatar-border-color: #FF8228;
+}
+.avatar-group .avatar {
+	border-radius: 100%;
+	border: 4px solid var(--avatar-border-color);
+}
+
+.avatar-group.tier-2 .avatar,
+.avatar-group.tier-3 .avatar {
+	height: 50%;
+}
+
+.top-3-user:not(:has(.tier-1)) > div:nth-child(2),
+.top-3-user:not(:has(.tier-1)) > div:nth-child(3) {
+	position: relative;
+	transform: translateY(-100%);
+}
+
+/* Leaderboard table */
+.leaderboard-table {
+	--thead-border-radius: 0.5rem;
+	--tbody-border-radius: 2rem;
+
+	color: #FFF;
+	width: 100%;
+	text-align: center;
+	font-family: 'Inter', sans-serif;
+	font-size: 1.3rem;
+	border-spacing: 0 1rem;
+	border-collapse: separate;
+	margin-top: 2rem;
+}
+
+.leaderboard-table thead {
+	background: #454B79;
+	border-radius: 1rem;
+}
+
+.leaderboard-table thead td {
+	padding: 0.3rem 0;
+}
+
+.leaderboard-table tbody td {
+	gap: 0.5rem;
+	padding: 0.5rem 0;
+}
+
+.leaderboard-table thead td:first-child {
+	border-radius: var(--thead-border-radius) 0 0 var(--thead-border-radius);
+}
+
+.leaderboard-table thead td:last-child {
+	border-radius: 0 var(--thead-border-radius) var(--thead-border-radius) 0;
+}
+
+.leaderboard-item.first {
+	background: #FFCA28;
+	color: #312244;
+}
+
+.leaderboard-item.second {
+	background: #C5E4FB;
+	color: #312244;
+}
+
+.leaderboard-item.third {
+	background: #ECB48B;
+	color: #312244;
+}
+
+/* if u're not in the top 3, then applies this */
+.leaderboard-item.self { 
+	background: #454B79;
+}
+
+.leaderboard-table tbody td:first-child {
+	border-radius: var(--tbody-border-radius) 0 0 var(--tbody-border-radius);
+}
+
+.leaderboard-table tbody td:last-child {
+	border-radius: 0 var(--tbody-border-radius) var(--tbody-border-radius) 0;
+}
+
+.leaderboard-table .avatar {
+	border-radius: 100%;
+	height: 43px;
+	width: 43px;
+}

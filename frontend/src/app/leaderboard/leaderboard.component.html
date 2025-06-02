@@ -1,3 +1,64 @@
 <div class="container">
-	<p style="color: white;background:rgba(255,255,255,0.6)">leaderboard works!</p>
+	<div class="d-none d-md-flex justify-content-center top-3">
+		<div class="top-3-user">
+			<div class="avatar-group tier-2">
+				<img [src]="leaderboardEntries[1].avatar" class="avatar" [alt]="leaderboardEntries[1].username" onerror="this.src='/assets/profile.png'">
+				<div class="rank">
+					<div>2</div>
+				</div>
+			</div>
+			<div class="username">{{ leaderboardEntries[1].username }}</div>
+			<div class="level">level {{ leaderboardEntries[1].level }}</div>
+		</div>
+		<div class="top-3-user">
+			<div class="avatar-group tier-1">
+				<img src="/assets/leaderboard/crown.png" class="crown">
+				<img [src]="leaderboardEntries[0].avatar" class="avatar" [alt]="leaderboardEntries[0].username" onerror="this.src='/assets/profile.png'">
+				<div class="rank">
+					<div>1</div>
+				</div>
+			</div>
+			<div class="username">{{ leaderboardEntries[0].username }}</div>
+			<div class="level">level {{ leaderboardEntries[0].level }}</div>
+		</div>
+		<div class="top-3-user">
+			<div class="avatar-group tier-3">
+				<img [src]="leaderboardEntries[2].avatar" class="avatar" [alt]="leaderboardEntries[2].username" onerror="this.src='/assets/profile.png'">
+				<div class="rank">
+					<div>3</div>
+				</div>
+			</div>
+			<div class="username">{{ leaderboardEntries[2].username }}</div>
+			<div class="level">level {{ leaderboardEntries[2].level }}</div>
+		</div>
+	</div>
+	<div>
+		<table class="leaderboard-table">
+			<thead>
+				<td>Rank</td>
+				<td>Avatar</td>
+				<td>Username</td>
+				<td>Level</td>
+				<td>Wordset</td>
+			</thead>
+			<tbody>
+				<tr
+					*ngFor="let item of leaderboardEntries"
+					class="leaderboard-item"
+					[ngClass]="{
+						'first': item.rank === 1,
+						'second': item.rank === 2,
+						'third': item.rank === 3,
+						'self': item.user_id === my_user_id,
+					}"
+				>
+					<td>{{ item.rank }}</td>
+					<td><img [src]="item.avatar" class="avatar" onerror="this.src='/assets/profile.png'"></td>
+					<td>{{ item.username }}</td>
+					<td>{{ item.level }}</td>
+					<td>{{ item.wordset }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
