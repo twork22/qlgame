@@ -5,10 +5,8 @@ import { Component, OnInit } from '@angular/core';
 interface LeaderboardEntry {
   user_id: number;
   rank: number;
-  avatar: string;
-  username: string;
-  level: number;
-  wordset: number;
+  fullname: string;
+  wordsets_count: number;
 }
 
 @Component({
@@ -32,20 +30,10 @@ export class LeaderboardComponent implements OnInit {
   }
 
   getLeaderboard () {
-    // TODO: get data from backend
-    // data should be sorted by rank
-    this.leaderboardEntries = [
-      { user_id: 123, rank: 1, avatar: '123', username: 'Iman', level: 1, wordset: 123 },
-      { user_id: 234, rank: 2, avatar: '123', username: 'Vatani', level: 1, wordset: 123 },
-      { user_id: 456, rank: 3, avatar: '123', username: 'Jonathan', level: 1, wordset: 123 },
-      { user_id: 87, rank: 4, avatar: '123', username: 'test', level: 1, wordset: 123 },
-      { user_id: 65, rank: 5, avatar: '123', username: 'test', level: 1, wordset: 123 },
-      { user_id: 12, rank: 6, avatar: '123', username: 'test', level: 1, wordset: 123 },
-    ]
-    // this.http.get('/api/test', { responseType: 'text' })
-    //   // @ts-ignore
-    //   .subscribe((data) => {
-    //     console.log(data)
-    //   })
+    this.http.get('/api/leaderboard', { responseType: 'json' })
+      // @ts-ignore
+      .subscribe((data: LeaderboardEntry[]) => {
+        this.leaderboardEntries = data;
+      })
   }
 }

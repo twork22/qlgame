@@ -1,35 +1,32 @@
 <div class="container">
-	<div class="d-none d-md-flex justify-content-center top-3">
+	<div *ngIf="leaderboardEntries.length > 0" class="d-none d-md-flex justify-content-center top-3">
 		<div class="top-3-user">
 			<div class="avatar-group tier-2">
-				<img [src]="leaderboardEntries[1].avatar" class="avatar" [alt]="leaderboardEntries[1].username" onerror="this.src='/assets/profile.png'">
+				<img src="/assets/profile.png" class="avatar" [alt]="leaderboardEntries[1].fullname">
 				<div class="rank">
 					<div>2</div>
 				</div>
 			</div>
-			<div class="username">{{ leaderboardEntries[1].username }}</div>
-			<div class="level">level {{ leaderboardEntries[1].level }}</div>
+			<div class="username">{{ leaderboardEntries[1]?.fullname }}</div>
 		</div>
 		<div class="top-3-user">
 			<div class="avatar-group tier-1">
 				<img src="/assets/leaderboard/crown.png" class="crown">
-				<img [src]="leaderboardEntries[0].avatar" class="avatar" [alt]="leaderboardEntries[0].username" onerror="this.src='/assets/profile.png'">
+				<img src="/assets/profile.png" class="avatar" [alt]="leaderboardEntries[0].fullname">
 				<div class="rank">
 					<div>1</div>
 				</div>
 			</div>
-			<div class="username">{{ leaderboardEntries[0].username }}</div>
-			<div class="level">level {{ leaderboardEntries[0].level }}</div>
+			<div class="username">{{ leaderboardEntries[0]?.fullname }}</div>
 		</div>
 		<div class="top-3-user">
 			<div class="avatar-group tier-3">
-				<img [src]="leaderboardEntries[2].avatar" class="avatar" [alt]="leaderboardEntries[2].username" onerror="this.src='/assets/profile.png'">
+				<img src="/assets/profile.png" class="avatar" [alt]="leaderboardEntries[2].fullname">
 				<div class="rank">
 					<div>3</div>
 				</div>
 			</div>
-			<div class="username">{{ leaderboardEntries[2].username }}</div>
-			<div class="level">level {{ leaderboardEntries[2].level }}</div>
+			<div class="username">{{ leaderboardEntries[2]?.fullname }}</div>
 		</div>
 	</div>
 	<div>
@@ -51,8 +48,8 @@
 					}"
 				>
 					<td>{{ item.rank }}</td>
-					<td>{{ item.username }}</td>
-					<td>{{ item.wordset }}</td>
+					<td>{{ item.fullname }}</td>
+					<td>{{ item.wordsets_count }}</td>
 				</tr>
 			</tbody>
 		</table>

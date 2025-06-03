@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\WordSet;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -48,4 +50,8 @@ class User extends Authenticatable
         'registration_date' => 'datetime',
         'user_type' => 'integer'
     ];
+
+    public function wordset() {
+        return $this->hasMany(WordSet::class, 'user_id', 'user_id');
+    }
 }
