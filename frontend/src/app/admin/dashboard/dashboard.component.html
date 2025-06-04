@@ -1,0 +1,22 @@
+<div class="container dashboard">
+	<div>metric cards here</div>
+	<div class="mt-4">
+		<h3>Report List</h3>
+		<table class="report-list">
+			<thead>
+				<td>Wordset Title</td>
+				<td>Reason</td>
+				<td>Date</td>
+				<td>Status</td>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of reportList" class="report-item">
+					<td>{{ item.title }}</td>
+					<td>{{ item.reason }}</td>
+					<td>{{ item.reported_date }}</td>
+					<td>{{ item.status }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

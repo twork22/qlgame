@@ -39,15 +39,5 @@ export class SidebarComponent {
       icon: '/assets/sidebar/ic_barchart.png',
       route: '/admin/dashboard',
     },
-    {
-      label: 'User List',
-      icon: '/assets/sidebar/ic_dancing.png',
-      route: '/admin/users',
-    },
-    {
-      label: 'Report List',
-      icon: '/assets/sidebar/ic_report.png',
-      route: '/admin/report',
-    },
   ]
 }
