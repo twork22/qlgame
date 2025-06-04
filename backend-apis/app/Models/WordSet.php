@@ -13,6 +13,8 @@ class WordSet extends Model
 
     protected $table = 'word_sets';
 
+    protected $primaryKey = 'word_set_id';
+
     protected $fillable = [
         'title',
         'description',

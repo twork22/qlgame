@@ -30,7 +30,7 @@ export class LeaderboardComponent implements OnInit {
   }
 
   getLeaderboard () {
-    this.http.get('/api/leaderboard', { responseType: 'json' })
+    this.http.get('/api/admin/leaderboard', { responseType: 'json' })
       // @ts-ignore
       .subscribe((data: LeaderboardEntry[]) => {
         this.leaderboardEntries = data;

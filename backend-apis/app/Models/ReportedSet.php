@@ -26,8 +26,8 @@ class ReportedSet extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function wordSet()
+    public function wordset()
     {
-        return $this->belongsTo(WordSet::class, 'word_set_id');
+        return $this->belongsTo(WordSet::class, 'word_set_id', 'word_set_id');
     }
 }

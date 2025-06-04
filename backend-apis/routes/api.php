@@ -4,7 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\User;
-
+use App\Models\GameSession;
+use App\Models\WordSet;
+use App\Models\ReportedSet;
+use App\Http\Controllers\ReportListController;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,32 +28,54 @@ Route::get('/test', function (Request $request) {
     return 'test';
 });
 
-Route::get('/leaderboard', function (Request $request) {
-    $wordSets = User::select('user_id', 'fullname')
-        ->withCount(['wordset as wordsets_count' => function ($query) {
-            $query->has('vocabularies', '>=', 5);
-        }])
-        ->whereHas('wordset', function ($query) {
-            $query->has('vocabularies', '>=', 5);
-        })
-        ->whereDoesntHave('wordset', function ($query) {
-            $query->has('vocabularies', '<', 5);
-        })
-        ->orderByDesc('wordsets_count')
-        ->get();
+Route::prefix('admin')->group(function() {
+    Route::get('/leaderboard', function (Request $request) {
+        $wordSets = User::select('user_id', 'fullname')
+            ->withCount(['wordset as wordsets_count' => function ($query) {
+                $query->has('vocabularies', '>=', 5);
+            }])
+            ->whereHas('wordset', function ($query) {
+                $query->has('vocabularies', '>=', 5);
+            })
+            ->whereDoesntHave('wordset', function ($query) {
+                $query->has('vocabularies', '<', 5);
+            })
+            ->orderByDesc('wordsets_count')
+            ->get();
 
-    $rank = 0;
-    $prevCount = null;
+        $rank = 0;
+        $prevCount = null;
 
-    foreach ($wordSets as $index => $wordSet) {
-        if ($wordSet->wordsets_count !== $prevCount) {
-            $rank++; // only update rank when count changes
+        foreach ($wordSets as $index => $wordSet) {
+            if ($wordSet->wordsets_count !== $prevCount) {
+                $rank++; // only update rank when count changes
+            }
+
+            $wordSet->rank = $rank;
+
+            $prevCount = $wordSet->wordsets_count;
         }
 
-        $wordSet->rank = $rank;
+        return response()->json($wordSets);
+    });
 
-        $prevCount = $wordSet->wordsets_count;
-    }
+    Route::resource('reported-list', ReportListController::class)->only(['index', 'update']);
 
-    return $wordSets;
+    Route::get('/metrics', function (Request $request) {
+        $response = [
+            'new_player' => 0,
+            'avg_play_time' => 0,
+            'pending_reports' => 0,
+            'total_wordset' => 0,
+            'wordset_created_today' => 0,
+        ];
+
+        $response['new_player'] = User::whereDate('created_at', Carbon::today())->count();
+        $response['avg_play_time'] = GameSession::avg('play_duration');
+        $response['pending_reports'] = ReportedSet::where('report_status', 0)->count();
+        $response['total_wordset'] = WordSet::count();
+        $response['wordset_created_today'] = WordSet::whereDate('created_at', Carbon::today())->count();
+
+        return response()->json($response);
+    });
 });

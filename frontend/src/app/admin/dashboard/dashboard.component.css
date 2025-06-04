@@ -1,13 +1,92 @@
-.dashboard * {
+.metric-card-group {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 3rem;
+}
+
+.metric-card {
+	width: 100%;
+	background: var(--card-background);
+	border-radius: 1rem;
+	min-height: 8rem;
+	display: flex;
+	flex-direction: column;
+	padding-left: 1.5rem;
+	justify-content: center;
+}
+.metric-card:nth-child(1) {
+	--card-background: #FFE2E5;
+	--icon-background: #FA5A7D;
+}
+.metric-card:nth-child(2) {
+	--card-background: #FFF4DE;
+	--icon-background: #FF947A;
+}
+.metric-card:nth-child(3) {
+	--card-background: #DCFCE7;
+	--icon-background: #3CD856;
+}
+.metric-card:nth-child(4) {
+	--card-background: #F3E8FF;
+	--icon-background: #BF83FF;
+}
+.metric-card > div {
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	margin-bottom: 0.5rem;
+}
+.metric-card i {
+	background: var(--icon-background);
+	padding: 0.2rem 0.5rem;
+	border-radius: 100%;
 	color: #FFF;
-	font-family: 'Inter', sans-serif;
+}
+.metric-card h3 {
+	margin: 0;
 }
 
 .report-list {
+	--thead-border-radius: 0.5rem;
+	--tbody-border-radius: 2rem;
+
 	color: #FFF;
 	font-family: 'Inter', sans-serif;
 	width: 100%;
 	text-align: center;
 	border-spacing: 0 1rem;
 	border-collapse: separate;
+}
+
+.report-list thead {
+	background: #454B79;
+	border-radius: 1rem;
+}
+
+.report-list thead td {
+	padding: 0.3rem 0;
+}
+
+.report-list thead td:first-child {
+	border-radius: var(--thead-border-radius) 0 0 var(--thead-border-radius);
+}
+
+.report-list thead td:last-child {
+	border-radius: 0 var(--thead-border-radius) var(--thead-border-radius) 0;
+}
+
+.status-badge.accepted {
+	--badge-background: #10A957;
+}
+.status-badge.pending {
+	--badge-background: #7C7C7C;
+}
+.status-badge.rejected {
+	--badge-background: #EC221F;
+}
+.status-badge {
+	background: var(--badge-background);
+	color: #FFF;
+	border-radius: 0.3rem;
+	padding: 0.3rem;
 }

@@ -1,7 +1,36 @@
 <div class="container dashboard">
-	<div>metric cards here</div>
+	<div class="metric-card-group">
+		<div class="metric-card">
+			<div>
+				<i class="bi bi-person-fill"></i>
+				<h3>{{ metrics.new_player }}</h3>
+			</div>
+			<h6>New Player</h6>
+		</div>
+		<div class="metric-card">
+			<div>
+				<i class="bi bi-joystick"></i>
+				<h3>{{ formattedTimeAvgPlaytime }}</h3>
+			</div>
+			<h6>Avg. Play Time</h6>
+		</div>
+		<div class="metric-card">
+			<div>
+				<i class="bi bi-flag-fill"></i>
+				<h3>{{ metrics.pending_reports }}</h3>
+			</div>
+			<h6>Pending Reports</h6>
+		</div>
+		<div class="metric-card">
+			<div>
+				<i class="bi bi-bar-chart-fill"></i>
+				<h3>{{ metrics.total_wordset }} / {{ metrics.wordset_created_today }}</h3>
+			</div>
+			<h6>Total Wordset /<br>Wordset Created Today</h6>
+		</div>
+	</div>
 	<div class="mt-4">
-		<h3>Report List</h3>
+		<h3 class="text-white">Report List</h3>
 		<table class="report-list">
 			<thead>
 				<td>Wordset Title</td>
@@ -10,11 +39,27 @@
 				<td>Status</td>
 			</thead>
 			<tbody>
-				<tr *ngFor="let item of reportList" class="report-item">
-					<td>{{ item.title }}</td>
+				<tr *ngFor="let item of reportList; index as index" class="report-item">
+					<td>{{ item.wordset_title }}</td>
 					<td>{{ item.reason }}</td>
 					<td>{{ item.reported_date }}</td>
-					<td>{{ item.status }}</td>
+					@if (item.report_status === 0) {
+						<td>
+							<div class="btn-group w-100">
+								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Pending
+								</button>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="#" (click)="$event.preventDefault(); updateTicket(index, 1)">Accept</a>
+									<a class="dropdown-item" href="#" (click)="$event.preventDefault(); updateTicket(index, 2)">Reject</a>
+								</div>
+							</div>
+						</td>
+					} @else if (item.report_status === 1) {
+						<td class="status-badge accepted">Accepted</td>
+					} @else if (item.report_status === 2) {
+						<td class="status-badge rejected">Rejected</td>
+					}
 				</tr>
 			</tbody>
 		</table>
