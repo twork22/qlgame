@@ -33,8 +33,10 @@ services:
       - app-network
 
   frontend:
-    working_dir: /app
-    image: node:22.16.0
+    image: qlgame_frontend
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile_frontend
     restart: unless-stopped
     volumes:
       - ./frontend/:/app/
