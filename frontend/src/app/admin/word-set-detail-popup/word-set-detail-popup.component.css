@@ -1,0 +1,62 @@
+#modalWordsetDetail {
+	--head-color: #454B79;
+}
+.modal-content {
+	border-radius: 1rem;
+}
+.modal-header {
+	--header-border-radius: calc(1rem - 5px);
+	background: var(--head-color);
+	border-radius: var(--header-border-radius) var(--header-border-radius) 0 0;
+	color: #FFF;
+}
+.close {
+	color:#FFF;
+}
+.modal-body {
+	padding: 0!important;
+}
+
+
+.definition-table {
+	--thead-border-radius: 0.5rem;
+	--tbody-border-radius: 2rem;
+
+	font-family: 'Inter', sans-serif;
+	margin-bottom: 1rem;
+	width: 100%;
+}
+
+.definition-table thead {
+	background: var(--head-color);
+	border-radius: 1rem;
+	color: #FFF;
+	text-transform: uppercase;
+}
+
+.definition-table thead td {
+	padding: 1rem 0;
+}
+.definition-table tbody td {
+	padding: 0.5rem;
+}
+
+.definition-table thead td:first-child,
+.definition-table tbody td:first-child {
+	padding-left: 1rem;
+}
+.definition-table thead td:last-child,
+.definition-table tbody td:last-child {
+	padding-right: 1rem;
+}
+
+.definition-table tbody tr td:first-child {
+	min-width: 4rem;
+}
+.definition-table tbody tr td:nth-child(2) {
+	min-width: 8rem;
+}
+
+.definition-table tbody tr:nth-child(even) {
+	background: #eff4ff;
+}

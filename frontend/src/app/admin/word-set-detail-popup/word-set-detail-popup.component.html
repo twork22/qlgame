@@ -1,0 +1,28 @@
+<div class="modal fade" id="modalWordsetDetail" tabindex="-1" role="dialog" aria-labelledby="modalWordsetDetailTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalWordsetDetailTitle">{{ wordsetDetail.title }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="definition-table">
+			<thead>
+				<td>#</td>
+				<td>Term</td>
+				<td>Definition</td>
+			</thead>
+			<tbody>
+				<tr *ngFor="let vocabItem of wordsetDetail.vocabularies; index as index;">
+					<td>{{ index }}</td>
+					<td>{{ vocabItem.term }}</td>
+					<td>{{ vocabItem.definition }}</td>
+				</tr>
+			</tbody>
+		</table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -75,6 +75,11 @@
 	border-radius: 0 var(--thead-border-radius) var(--thead-border-radius) 0;
 }
 
+.wordset-title {
+	color: #FFF;
+	font-weight: bold;
+}
+
 .status-badge.accepted {
 	--badge-background: #10A957;
 }

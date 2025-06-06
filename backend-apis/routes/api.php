@@ -8,6 +8,7 @@ use App\Models\GameSession;
 use App\Models\WordSet;
 use App\Models\ReportedSet;
 use App\Http\Controllers\ReportListController;
+use App\Http\Controllers\WordSetController;
 use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
@@ -78,4 +79,6 @@ Route::prefix('admin')->group(function() {
 
         return response()->json($response);
     });
+
+    Route::resource('wordset', WordSetController::class)->only(['show']);
 });

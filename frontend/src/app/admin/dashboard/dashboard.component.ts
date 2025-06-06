@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { WordSetDetailPopupComponent } from '../word-set-detail-popup/word-set-detail-popup.component';
 
 interface ReportItem {
   word_set_id: number;
@@ -21,9 +22,27 @@ interface DashboardMetricsResponse {
   wordset_created_today: number;
 }
 
+interface Vocabulary {
+  vocab_id: number;
+  word_set_id: number;
+  term: string;
+  definition: string;
+}
+
+interface WordSetDetailResponse {
+  word_set_id: number;
+  title: string;
+  description: string;
+  created_date: string;
+  view_count: number;
+  is_hidden: number;
+  user_id?: number // optional
+  vocabularies: Vocabulary[]
+}
+
 @Component({
   selector: 'app-dashboard',
-  imports: [CommonModule],
+  imports: [CommonModule, WordSetDetailPopupComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -50,6 +69,8 @@ export class DashboardComponent implements OnInit {
 
     return parts.join(' ');
   }
+
+  @ViewChild(WordSetDetailPopupComponent) wordsetDetailPopup!: WordSetDetailPopupComponent; 
 
   constructor (private http: HttpClient) {
     // 
@@ -84,6 +105,16 @@ export class DashboardComponent implements OnInit {
         if (data.success) {
           this.reportList[index].report_status = status;
         }
+      });
+  }
+
+  showWordSetDetail(index: number) {
+    const wordSetId = this.reportList[index].word_set_id;
+
+    this.http.get(`/api/admin/wordset/${wordSetId}`)
+      // @ts-ignore
+      .subscribe((data: WordSetDetailResponse) => {
+        this.wordsetDetailPopup.showPopup(data);
       });
   }
 }
